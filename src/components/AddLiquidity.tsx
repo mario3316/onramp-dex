@@ -9,6 +9,7 @@ import WKaiaAbi from "@/abi/WKaia.json";
 import NonfungiblePositionManagerAbi from "@/abi/NonfungiblePositionManager.json";
 import PoolAbi from "@/abi/UniswapV3Pool.json";
 import FactoryAbi from "@/abi/UniswapV3Factory.json";
+import { ExternalProvider } from "@ethersproject/providers";
 
 const TOKENS = [
     { symbol: "WKAIA", address: config.WKAIA_ADDRESS, name: "Wrapped Kaia" },
@@ -41,7 +42,7 @@ export function AddLiquidity() {
         if (typeof window === "undefined" || !window.ethereum) return;
 
         try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
 
             // Token A 잔액 조회
             const tokenAAbi = tokenA.symbol === "WKAIA" ? WKaiaAbi.abi : MockERC20Abi.abi;
@@ -74,8 +75,9 @@ export function AddLiquidity() {
 
     // Pool 존재 여부 확인
     const checkPoolExists = async () => {
+        if (typeof window === "undefined" || !window.ethereum) return false;
         try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
             const factory = new ethers.Contract(config.FACTORY_ADDRESS, FactoryAbi.abi, provider);
 
             const poolAddress = await factory.getPool(tokenA.address, tokenB.address, feeTier.value);
@@ -106,7 +108,7 @@ export function AddLiquidity() {
                 setIsProcessing(false);
                 return;
             }
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
             const signer = provider.getSigner();
 
             // Factory 컨트랙트

@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import UniswapV3PoolAbi from "@/abi/UniswapV3Pool.json";
 import { config } from "@/utils/config";
+import { ExternalProvider } from "@ethersproject/providers";
 
 interface Position {
     id: number;
-    token0: string;
-    token1: string;
-    liquidity: string;
-    fee: string;
+    pair: string;
+    amount: string;
+    tvl: string;
 }
 
 export function MyPositionList() {
@@ -20,8 +20,9 @@ export function MyPositionList() {
     useEffect(() => {
         async function fetchPosition() {
             if (!address) return;
+            if (typeof window === "undefined" || !window.ethereum) return;
             try {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
                 const pool = new ethers.Contract(config.POOL_ADDRESS, UniswapV3PoolAbi.abi, provider);
                 // 예시: Uniswap V3는 NFT 기반이므로 실제로는 positionManager에서 조회해야 함
                 // 여기서는 단순히 유동성(balance)만 조회

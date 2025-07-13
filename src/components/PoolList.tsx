@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import UniswapV3PoolAbi from "@/abi/UniswapV3Pool.json";
 import { config } from "@/utils/config";
+import { ExternalProvider } from "@ethersproject/providers";
 
 interface Pool {
     id: number;
@@ -16,8 +17,9 @@ export function PoolList() {
     const [pools, setPools] = useState<Pool[]>([]);
     useEffect(() => {
         async function fetchPool() {
+            if (typeof window === "undefined" || !window.ethereum) return;
             try {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
                 // 예시: 단일 풀만 조회 (여러 풀 지원 시 배열로 반복)
                 const pool = new ethers.Contract(config.POOL_ADDRESS, UniswapV3PoolAbi.abi, provider);
                 // 예시: slot0, liquidity 등 조회 (Uniswap V3 기준)

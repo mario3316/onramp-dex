@@ -9,6 +9,7 @@ import WKaiaAbi from "@/abi/WKaia.json";
 import SwapRouterAbi from "@/abi/SwapRouter.json";
 import PoolAbi from "@/abi/UniswapV3Pool.json";
 import FactoryAbi from "@/abi/UniswapV3Factory.json";
+import { ExternalProvider } from "@ethersproject/providers";
 
 // (tsconfig.json에 "resolveJsonModule": true 필요)
 
@@ -46,7 +47,7 @@ export function SwapForm() {
         if (typeof window === "undefined" || !window.ethereum) return;
 
         try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
 
             // From 토큰 잔액 조회
             const fromTokenAbi = fromToken.symbol === "WKAIA" ? WKaiaAbi.abi : MockERC20Abi.abi;
@@ -68,8 +69,9 @@ export function SwapForm() {
 
     // Pool 존재 여부 확인
     const checkPoolExists = async () => {
+        if (typeof window === "undefined" || !window.ethereum) return false;
         try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
             const factory = new ethers.Contract(config.FACTORY_ADDRESS, FactoryAbi.abi, provider);
 
             const poolAddress = await factory.getPool(fromToken.address, toToken.address, 3000);
@@ -109,7 +111,7 @@ export function SwapForm() {
                 setIsSwapping(false);
                 return;
             }
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
             const signer = provider.getSigner();
 
             // 1. Approve 필요하면 자동 처리

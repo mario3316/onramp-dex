@@ -4,6 +4,7 @@ import { useAccount, useWalletClient } from "wagmi";
 import { ethers } from "ethers";
 import { config } from "@/utils/config";
 import WKaiaAbi from "@/abi/WKaia.json";
+import { ExternalProvider } from "@ethersproject/providers";
 
 export function KaiaWrapper() {
     const { address, isConnected } = useAccount();
@@ -24,7 +25,7 @@ export function KaiaWrapper() {
 
         try {
             console.log("Fetching balances for address:", address);
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
 
             // 네트워크 상태 확인
             const network = await provider.getNetwork();
@@ -78,7 +79,7 @@ export function KaiaWrapper() {
 
         setIsProcessing(true);
         try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
             const signer = provider.getSigner();
             const wkaia = new ethers.Contract(config.WKAIA_ADDRESS, WKaiaAbi.abi, signer);
 
@@ -119,7 +120,7 @@ export function KaiaWrapper() {
 
         setIsProcessing(true);
         try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const provider = new ethers.providers.Web3Provider(window.ethereum as ExternalProvider);
             const signer = provider.getSigner();
             const wkaia = new ethers.Contract(config.WKAIA_ADDRESS, WKaiaAbi.abi, signer);
 
