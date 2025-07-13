@@ -38,6 +38,7 @@ export function AddLiquidity() {
     // 토큰 잔액 조회
     const fetchTokenBalances = async () => {
         if (!address || !isConnected) return;
+        if (typeof window === "undefined" || !window.ethereum) return;
 
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);

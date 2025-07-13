@@ -20,6 +20,7 @@ export function KaiaWrapper() {
             console.log("Not connected or no address");
             return;
         }
+        if (typeof window === "undefined" || !window.ethereum) return;
 
         try {
             console.log("Fetching balances for address:", address);
