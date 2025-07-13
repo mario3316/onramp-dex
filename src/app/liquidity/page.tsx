@@ -22,18 +22,21 @@ export default function LiquidityPage() {
 
             {/* Add Liquidity Modal */}
             {showAddLiquidity && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-bold">Add Liquidity</h3>
+                <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+                    <div className="!bg-black border-2 border-kaia rounded-2xl p-0 max-w-lg w-full mx-4 overflow-visible relative">
+                        <div className="flex justify-between items-center px-6 pt-6 pb-2 border-b-2 border-kaia rounded-t-2xl">
+                            <h3 className="text-lg font-extrabold text-kaia">Add Liquidity</h3>
                             <button
                                 onClick={() => setShowAddLiquidity(false)}
-                                className="text-gray-500 hover:text-gray-700 text-xl"
+                                className="text-kaia text-2xl font-bold hover:text-black hover:bg-kaia rounded-full w-8 h-8 flex items-center justify-center transition"
+                                aria-label="Close"
                             >
                                 ×
                             </button>
                         </div>
-                        <AddLiquidity />
+                        <div className="p-6 pb-8 overflow-visible">
+                            <AddLiquidity />
+                        </div>
                     </div>
                 </div>
             )}

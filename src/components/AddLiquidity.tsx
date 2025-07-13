@@ -221,7 +221,7 @@ export function AddLiquidity() {
     }, [address, isConnected]);
 
     return (
-        <div className="bg-black border-4 border-kaia rounded-2xl p-8 shadow-xl max-w-lg mx-auto">
+        <div className="p-0">
             <h2 className="text-2xl font-extrabold mb-6 text-kaia">Add Liquidity</h2>
 
             {/* 토큰 선택 */}
@@ -279,18 +279,15 @@ export function AddLiquidity() {
                     step="0.0001"
                     min="0"
                 />
-                <div className="text-xs text-kaia mt-2">
-                    <strong>Note:</strong> Token amounts should match the current pool price ratio for optimal liquidity provision.
-                </div>
             </div>
 
             {/* Add Liquidity 버튼 */}
             <button
-                className="w-full bg-kaia text-black font-extrabold py-3 rounded-lg shadow hover:bg-kaia-light transition disabled:opacity-50"
+                className="w-full bg-white text-kaia border-2 border-kaia font-extrabold py-3 rounded-lg hover:bg-white focus:bg-white active:bg-white disabled:bg-white disabled:text-kaia transition disabled:opacity-50 mt-4"
                 disabled={!isConnected || !amountA || !amountB || isProcessing || tokenA.address === tokenB.address}
                 onClick={handleAddLiquidity}
             >
-                {isProcessing ? <span className="text-black">Adding Liquidity...</span> : <span className="text-black">Add Liquidity</span>}
+                {isProcessing ? <span className="text-kaia">Adding Liquidity...</span> : <span className="text-kaia">Add Liquidity</span>}
             </button>
 
             {/* 트랜잭션 해시 */}
