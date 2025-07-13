@@ -4,8 +4,16 @@ import { ethers } from "ethers";
 import UniswapV3PoolAbi from "@/abi/UniswapV3Pool.json";
 import { config } from "@/utils/config";
 
+interface Pool {
+    id: number;
+    pair: string;
+    tvl: string;
+    price: string;
+    feeTier: string;
+}
+
 export function PoolList() {
-    const [pools, setPools] = useState<any[]>([]);
+    const [pools, setPools] = useState<Pool[]>([]);
     useEffect(() => {
         async function fetchPool() {
             try {
@@ -26,7 +34,7 @@ export function PoolList() {
                         feeTier: "0.3%"
                     }
                 ]);
-            } catch (e) {
+            } catch {
                 setPools([]);
             }
         }

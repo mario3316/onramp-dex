@@ -5,9 +5,17 @@ import { ethers } from "ethers";
 import UniswapV3PoolAbi from "@/abi/UniswapV3Pool.json";
 import { config } from "@/utils/config";
 
+interface Position {
+    id: number;
+    token0: string;
+    token1: string;
+    liquidity: string;
+    fee: string;
+}
+
 export function MyPositionList() {
     const { address } = useAccount();
-    const [positions, setPositions] = useState<any[]>([]);
+    const [positions, setPositions] = useState<Position[]>([]);
 
     useEffect(() => {
         async function fetchPosition() {
@@ -27,7 +35,7 @@ export function MyPositionList() {
                         tvl: "-"
                     }
                 ]);
-            } catch (e) {
+            } catch {
                 setPositions([]);
             }
         }
